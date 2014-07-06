@@ -15,6 +15,7 @@
 int currentPosition = 0;
 PImage [] images;
 PImage mask1, mask2, mask3;
+PImage doilie;
 
 void setup()
 {
@@ -23,6 +24,7 @@ void setup()
     mask1 = loadImage("mask/mask1.png");
     mask2 = loadImage("mask/mask2.png");
     mask3 = loadImage("mask/mask3.png");
+    doilie = loadImage("mask/doilie.png");
 }
 
 void draw()
@@ -41,6 +43,7 @@ void draw()
   } else {
     image(mask1, mouseX, mouseY);
   }
+  image(doilie, mouseX, mouseY);
   if(currentPosition >= images.length)
   {
      currentPosition = 0;
