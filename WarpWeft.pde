@@ -14,20 +14,33 @@
 
 int currentPosition = 0;
 PImage [] images;
+PImage mask1, mask2, mask3;
 
 void setup()
 {
     size(960, 640);
     images = loadImages("vid/ww-", ".png", 352);
+    mask1 = loadImage("mask/mask1.png");
+    mask2 = loadImage("mask/mask2.png");
+    mask3 = loadImage("mask/mask3.png");
 }
 
 void draw()
-{
+{  
+  imageMode(CORNER);
   float imageWidth = (height*images[currentPosition].width)/images[currentPosition].height;
   image(images[currentPosition], 0, 0, imageWidth, height);
   // I've removed currentPosition+=1
   // because the animation is controlled by 
   // the mouse
+  imageMode(CENTER);
+  if (mouseY < height/3) {
+    image(mask3, mouseX, mouseY);
+  } else if (mouseY < 2*height/3) {
+    image(mask2, mouseX, mouseY);
+  } else {
+    image(mask1, mouseX, mouseY);
+  }
   if(currentPosition >= images.length)
   {
      currentPosition = 0;
