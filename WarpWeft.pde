@@ -17,14 +17,24 @@ PImage [] images;
 PImage mask1, mask2, mask3;
 PImage doilie;
 
+Maxim maxi;
+AudioPlayer playerWhispers;
+AudioPlayer playerKeys;
+boolean playing;
+
 void setup()
 {
-    size(960, 640);
-    images = loadImages("vid/ww-", ".png", 352);
-    mask1 = loadImage("mask/mask1.png");
-    mask2 = loadImage("mask/mask2.png");
-    mask3 = loadImage("mask/mask3.png");
-    doilie = loadImage("mask/doilie.png");
+  size(960, 640);
+  images = loadImages("vid/ww-", ".png", 352);
+  mask1 = loadImage("mask/mask1.png");
+  mask2 = loadImage("mask/mask2.png");
+  mask3 = loadImage("mask/mask3.png");
+  doilie = loadImage("mask/doilie.png");
+  maxi = new Maxim(this);
+  playerWhispers = maxi.loadFile("sound/whisper.wav");
+  playerWhispers.setLooping(true);
+  playerKeys = maxi.loadFile("sound/keyboard.wav");
+  playerKeys.setLooping(true);
 }
 
 void draw()
@@ -44,11 +54,24 @@ void draw()
     image(mask1, mouseX, mouseY);
   }
   image(doilie, mouseX, mouseY);
-  if(currentPosition >= images.length)
+  if (currentPosition >= images.length)
   {
-     currentPosition = 0;
+    currentPosition = 0;
   }
-  
+  adjustSoundSpeed();
+}
+
+void mousePressed() {
+  if (!playing) {
+    playerWhispers.cue(0);
+    playerWhispers.play();
+    playerKeys.cue(0);
+    playerKeys.play();
+  } else {
+    playerWhispers.stop();
+    playerKeys.stop();
+  }
+  playing = !playing;
 }
 
 
@@ -63,6 +86,17 @@ void mouseDragged()
   // doesn't go below 0 or above the length 
   // of the animation
   currentPosition = constrain(currentPosition, 0, images.length-1);
+}
+
+void adjustSoundSpeed() {
+  float ratioX =0;
+  ratioX = (float) mouseX / (float) width;
+  ratioX *= 2;
+  playerWhispers.speed(ratioX);
+  float ratioY =0;
+  ratioY = (float) mouseY / (float) height;
+  ratioY *= 2;
+  playerKeys.speed(ratioY);
 }
 
 
