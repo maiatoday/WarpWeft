@@ -24,7 +24,7 @@ boolean playing;
 
 void setup()
 {
-  size(960, 640);
+  size(720, 480);
   images = loadImages("vid/ww-", ".png", 352);
   mask1 = loadImage("mask/mask1.png");
   mask2 = loadImage("mask/mask2.png");
